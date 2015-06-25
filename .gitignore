@@ -6,3 +6,7 @@
 
 # binary
 a.out
+
+# vim
+*.swp
+*.swo
