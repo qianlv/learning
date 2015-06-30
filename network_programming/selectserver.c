@@ -36,6 +36,28 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
+int sendall(int s, char *buf, int *len)
+{
+    int total = 0;
+    int bytesleft = *len;
+    int n;
+
+    while (total < *len)
+    {
+        n = send(s, buf + total, bytesleft, 0);
+        if (n == -1)
+        {
+            break;
+        }
+        total += n;
+        bytesleft -= n;
+    }
+
+    *len = total;
+
+    return n == -1 ? -1 : 0;
+}
+
 int main(int argc, char *argv[])
 {
     fd_set master;
@@ -166,9 +188,11 @@ int main(int argc, char *argv[])
                     {
                         if (!FD_ISSET(j, &master) || j == listener || j == i)
                             continue;
-                        if (send(j, buf, nbytes, 0) == -1)
+                        int len = nbytes;
+                        if (sendall(j, buf, &len) == -1)
                         {
-                            perror("send");
+                            perror("sendall");
+                            printf("We only sent %d bytes because of the error!\n", len);
                         }
                     }
                 }
