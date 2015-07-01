@@ -5,7 +5,8 @@
 *.egg-info
 
 # binary
-a.out
+*.out
+*.o
 
 # vim
 *.swp
