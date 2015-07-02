@@ -34,13 +34,10 @@ int main()
         length = BUFSIZE;
 
     flag = flag ? 0 : 1;
-    if (flag)
-        flag = 0;
-    else
-        flag = 1;
+    flag = !flag
             
     quote = (*line == '"') ? 1 : 0;
-    quote = ((*line) == '"') ? 1 : 0;
+    quote = (*line == '"')
 
     if (val & 1)
         bit = 1;
