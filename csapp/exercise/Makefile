@@ -23,13 +23,13 @@ exercise10: $(object10)
 	cc -pthread -o exercise10.out $(object10)
 
 csapp.o: csapp.h
-11-2.o:
-11-3.o:
-11-5.o:
-11-6.o:
-11-7.o:
-11-10.o:
+object = 11-2.o 11-3.o 11-5.o 11-6.o 11-7.o 11-10.o
+all: $(object)
+$(object): %.o: %.c
+	cc -c $< -o $@
 
 .PHONY: clean
 clean:
 	-rm *.o
+	-rm *.ouout
+
