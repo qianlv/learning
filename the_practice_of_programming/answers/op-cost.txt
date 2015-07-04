@@ -1,0 +1,368 @@
+Linux 2.4.34.5  Pentium 75 - 200  120.274 MHz
+gcc (GCC) 3.4.6
+
+Calibration: 0.066000
+
+Int Operations
+  i1++                            0.034000
+  i1 = i2 + i3                    0.026000
+  i1 = i2 - i3                    0.018000
+  i1 = i2 * i3                    0.084000
+  i1 = i2 / i3                    0.442000
+  i1 = i2 % i3                    0.426000
+
+Float Operations
+  f1 = f2                         0.008000
+  f1 = f2 + f3                    0.060000
+  f1 = f2 - f3                    0.058000
+  f1 = f2 * f3                    0.060000
+  f1 = f2 / f3                    0.358000
+
+Double Operations
+  d1 = d2                         0.018000
+  d1 = d2 + d3                    0.060000
+  d1 = d2 - d3                    0.058000
+  d1 = d2 * d3                    0.060000
+  d1 = d2 / d3                    0.362000
+
+Numeric Conversions
+  i1 = f1                         0.176000
+  f1 = i1                         0.050000
+
+Integer Vector Operations
+  v[i] = i                        0.052000
+  v[v[i]] = i                     0.034000
+  v[v[v[i]]] = i                  0.050000
+
+Control Structures
+  if (i == 5) i1++                0.026000
+  if (i != 5) i1++                0.058000
+  while (i < 0) i1++              0.026000
+  i1 = sum1(i2)                   0.084000
+  i1 = sum2(i2, i3)               0.118000
+  i1 = sum3(i2, i3, i4)           0.150000
+
+Input/Output
+  fputs(s, fp)                    1.152000
+  fgets(s, 9, fp)                11.992000
+  fprintf(fp, "%d\n", i)          9.910000
+  fscanf(fp, "%d", &i1)           9.476000
+
+Malloc
+  free(malloc(8))                 1.844000
+
+String Functions
+  strcpy(s, "0123456789")         0.590000
+  i1 = strcmp(s, s)               0.034000
+  i1 = strcmp(s, "a123456789")    0.318000
+
+String/Number Conversions
+  i1 = atoi("12345")              2.822000
+  sscanf("12345", "%d", &i1)     19.356000
+  sprintf(s, "%d", i)            13.630000
+  f1 = atof("123.45")            15.046000
+  sscanf("123.45", "%f", &f1)    50.400000
+  sprintf(s, "%6.2f", 123.45)    67.454000
+
+Math Functions
+  i1 = rand()                     0.674000
+  f1 = log(f2)                    1.778000
+  f1 = exp(f2)                    1.986000
+  f1 = sin(f2)                    0.950000
+  f1 = sqrt(f2)                   1.194000
+
+
+Linux 2.6.26.8  AMD Duron(tm) Processor  901.619 MHz
+gcc (GCC) 4.3.1
+
+Calibration: 0.004600
+
+Int Operations
+  i1++                            0.001600
+  i1 = i2 + i3                    0.001000
+  i1 = i2 - i3                    0.001000
+  i1 = i2 * i3                    0.001400
+  i1 = i2 / i3                    0.053600
+  i1 = i2 % i3                    0.048000
+
+Float Operations
+  f1 = f2                        -0.000200
+  f1 = f2 + f3                    0.001400
+  f1 = f2 - f3                    0.001000
+  f1 = f2 * f3                    0.000800
+  f1 = f2 / f3                    0.018800
+
+Double Operations
+  d1 = d2                         0.002200
+  d1 = d2 + d3                    0.003800
+  d1 = d2 - d3                    0.003800
+  d1 = d2 * d3                    0.004600
+  d1 = d2 / d3                    0.018600
+
+Numeric Conversions
+  i1 = f1                         0.037800
+  f1 = i1                         0.001800
+
+Integer Vector Operations
+  v[i] = i                        0.001000
+  v[v[i]] = i                     0.003200
+  v[v[v[i]]] = i                  0.006800
+
+Control Structures
+  if (i == 5) i1++                0.001000
+  if (i != 5) i1++                0.000800
+  while (i < 0) i1++              0.000000
+  i1 = sum1(i2)                   0.006600
+  i1 = sum2(i2, i3)               0.008000
+  i1 = sum3(i2, i3, i4)           0.011000
+
+Input/Output
+  fputs(s, fp)                    0.093400
+  fgets(s, 9, fp)                 0.938400
+  fprintf(fp, "%d\n", i)          0.451600
+  fscanf(fp, "%d", &i1)           0.551800
+
+Malloc
+  free(malloc(8))                 0.184600
+
+String Functions
+  strcpy(s, "0123456789")         0.044200
+  i1 = strcmp(s, s)              -0.001200
+  i1 = strcmp(s, "a123456789")    0.011000
+
+String/Number Conversions
+  i1 = atoi("12345")              0.181400
+  sscanf("12345", "%d", &i1)      0.858400
+  sprintf(s, "%d", i)             0.499600
+  f1 = atof("123.45")             0.780200
+  sscanf("123.45", "%f", &f1)     1.535000
+  sprintf(s, "%6.2f", 123.45)     2.454800
+
+Math Functions
+  i1 = rand()                     0.070600
+  f1 = log(f2)                    0.236800
+  f1 = exp(f2)                    0.167600
+  f1 = sin(f2)                    0.131400
+  f1 = sqrt(f2)                   0.037400
+
+
+Linux 2.6.18-6-amd64  AMD Sempron(tm) Processor 2800+ 1599.886 MHz
+gcc (GCC) 4.1.2 20061115 (prerelease) (Debian 4.1.1-21)
+
+Calibration: 0.004700
+
+Int Operations
+  i1++                           -0.000250
+  i1 = i2 + i3                   -0.001850
+  i1 = i2 - i3                    0.000300
+  i1 = i2 * i3                   -0.001550
+  i1 = i2 / i3                    0.022950
+  i1 = i2 % i3                    0.022950
+
+Float Operations
+  f1 = f2                        -0.002150
+  f1 = f2 + f3                   -0.001500
+  f1 = f2 - f3                   -0.000800
+  f1 = f2 * f3                   -0.001550
+  f1 = f2 / f3                    0.004100
+
+Double Operations
+  d1 = d2                         0.000350
+  d1 = d2 + d3                   -0.000800
+  d1 = d2 - d3                    0.000350
+  d1 = d2 * d3                    0.000100
+  d1 = d2 / d3                    0.006000
+
+Numeric Conversions
+  i1 = f1                         0.001000
+  f1 = i1                         0.000500
+
+Integer Vector Operations
+  v[i] = i                       -0.000900
+  v[v[i]] = i                     0.002200
+  v[v[v[i]]] = i                  0.003450
+
+Control Structures
+  if (i == 5) i1++               -0.000850
+  if (i != 5) i1++               -0.001550
+  while (i < 0) i1++              0.000050
+  i1 = sum1(i2)                   0.002200
+  i1 = sum2(i2, i3)               0.003100
+  i1 = sum3(i2, i3, i4)           0.003900
+
+Input/Output
+  fputs(s, fp)                    0.029200
+  fgets(s, 9, fp)                 0.702600
+  fprintf(fp, "%d\n", i)          0.182100
+  fscanf(fp, "%d", &i1)           0.214250
+
+Malloc
+  free(malloc(8))                 0.055050
+
+String Functions
+  strcpy(s, "0123456789")        -0.001500
+  i1 = strcmp(s, s)              -0.000500
+  i1 = strcmp(s, "a123456789")    0.015400
+
+String/Number Conversions
+  i1 = atoi("12345")              0.057500
+  sscanf("12345", "%d", &i1)      0.359550
+  sprintf(s, "%d", i)             0.189000
+  f1 = atof("123.45")             0.389700
+  sscanf("123.45", "%f", &f1)     0.649050
+  sprintf(s, "%6.2f", 123.45)     1.381000
+
+Math Functions
+  i1 = rand()                     0.015150
+  f1 = log(f2)                    0.115900
+  f1 = exp(f2)                    0.067800
+  f1 = sin(f2)                    0.078850
+  f1 = sqrt(f2)                   0.013100
+
+
+Mac OS X 10.5.5  Intel Core 2 Duo  1.83 GHz
+i686-apple-darwin9-gcc-4.0.1 (GCC) 4.0.1 (Apple Inc. build 5465)
+
+Calibration: 0.003830
+
+Int Operations
+  i1++                            0.000246
+  i1 = i2 + i3                   -0.000311
+  i1 = i2 - i3                   -0.000098
+  i1 = i2 * i3                   -0.000629
+  i1 = i2 / i3                    0.002778
+  i1 = i2 % i3                    0.002824
+
+Float Operations
+  f1 = f2                         0.000039
+  f1 = f2 + f3                   -0.000086
+  f1 = f2 - f3                   -0.000186
+  f1 = f2 * f3                   -0.000990
+  f1 = f2 / f3                    0.005468
+
+Double Operations
+  d1 = d2                         0.000075
+  d1 = d2 + d3                   -0.000003
+  d1 = d2 - d3                   -0.000018
+  d1 = d2 * d3                   -0.000408
+  d1 = d2 / d3                    0.013286
+
+Numeric Conversions
+  i1 = f1                         0.000169
+  f1 = i1                        -0.000189
+
+Integer Vector Operations
+  v[i] = i                       -0.001020
+  v[v[i]] = i                    -0.000594
+  v[v[v[i]]] = i                  0.000651
+
+Control Structures
+  if (i == 5) i1++               -0.000598
+  if (i != 5) i1++               -0.000187
+  while (i < 0) i1++             -0.000348
+  i1 = sum1(i2)                   0.001052
+  i1 = sum2(i2, i3)               0.001999
+  i1 = sum3(i2, i3, i4)           0.003612
+
+Input/Output
+  fputs(s, fp)                    0.023482
+  fgets(s, 9, fp)                 0.023775
+  fprintf(fp, "%d\n", i)          0.225661
+  fscanf(fp, "%d", &i1)           0.191768
+
+Malloc
+  free(malloc(8))                 0.081813
+
+String Functions
+  strcpy(s, "0123456789")         0.001307
+  i1 = strcmp(s, s)               0.000049
+  i1 = strcmp(s, "a123456789")    0.030554
+
+String/Number Conversions
+  i1 = atoi("12345")              0.072955
+  sscanf("12345", "%d", &i1)      0.370876
+  sprintf(s, "%d", i)             0.209798
+  f1 = atof("123.45")             0.116462
+  sscanf("123.45", "%f", &f1)     0.637149
+  sprintf(s, "%6.2f", 123.45)     0.596266
+
+Math Functions
+  i1 = rand()                     0.012083
+  f1 = log(f2)                    0.045808
+  f1 = exp(f2)                    0.044911
+  f1 = sin(f2)                    0.065713
+  f1 = sqrt(f2)                   0.030660
+
+
+Windows XP SP3  Intel Core 2 Duo  1.83 GHz
+Microsoft Visual Studio 2008 Version 9.0.30729.1 SP
+
+Calibration: 0.003825
+
+Int Operations
+  i1++                           -0.000310
+  i1 = i2 + i3                   -0.000540
+  i1 = i2 - i3                   -0.000935
+  i1 = i2 * i3                    0.000080
+  i1 = i2 / i3                    0.002815
+  i1 = i2 % i3                    0.002740
+
+Float Operations
+  f1 = f2                        -0.000935
+  f1 = f2 + f3                    0.000080
+  f1 = f2 - f3                   -0.000075
+  f1 = f2 * f3                   -0.000935
+  f1 = f2 / f3                    0.013130
+
+Double Operations
+  d1 = d2                        -0.001015
+  d1 = d2 + d3                    0.000160
+  d1 = d2 - d3                    0.000080
+  d1 = d2 * d3                   -0.000540
+  d1 = d2 / d3                    0.013125
+
+Numeric Conversions
+  i1 = f1                         0.003205
+  f1 = i1                        -0.000930
+
+Integer Vector Operations
+  v[i] = i                        0.000000
+  v[v[i]] = i                    -0.000620
+  v[v[v[i]]] = i                  0.000470
+
+Control Structures
+  if (i == 5) i1++               -0.001325
+  if (i != 5) i1++               -0.000150
+  while (i < 0) i1++             -0.001485
+  i1 = sum1(i2)                   0.034535
+  i1 = sum2(i2, i3)               0.035550
+  i1 = sum3(i2, i3, i4)           0.037425
+
+Input/Output
+  fputs(s, fp)                    1.038595
+  fgets(s, 9, fp)                 0.322425
+  fprintf(fp, "%d\n", i)          0.492505
+  fscanf(fp, "%d", &i1)           0.844770
+
+Malloc
+  free(malloc(8))                 0.902110
+
+String Functions
+  strcpy(s, "0123456789")         0.010395
+  i1 = strcmp(s, s)               0.018050
+  i1 = strcmp(s, "a123456789")    0.003830
+
+String/Number Conversions
+  i1 = atoi("12345")              0.322815
+  sscanf("12345", "%d", &i1)      0.900005
+  sprintf(s, "%d", i)             0.238595
+  f1 = atof("123.45")             1.826570
+  sscanf("123.45", "%f", &f1)     2.974690
+  sprintf(s, "%6.2f", 123.45)     3.658595
+
+Math Functions
+  i1 = rand()                     0.033205
+  f1 = log(f2)                    0.053910
+  f1 = exp(f2)                    0.044300
+  f1 = sin(f2)                    0.052425
+  f1 = sqrt(f2)                   0.027350
