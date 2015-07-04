@@ -16,6 +16,8 @@
 
 #include "csapp.h"
 
+void *get_in_addr(struct sockaddr *sa);
+const char *change_sockaddr_to_ip(struct sockaddr_storage *ss_addr);
 int open_listen_socket(const char *port, int nlisten);
 int AcceptSelect(int listenfd);
 void doit(int fd);
@@ -48,6 +50,9 @@ int open_listen_socket(const char *port, int nlisten)
     for (p = serverinfo; p != NULL; p = p->ai_next)
     {
         listenfd = Socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+        const char *ip;
+        ip = change_sockaddr_to_ip((struct sockaddr_storage*)(p->ai_addr));
+        printf("new connection from %s on socket %d\n", ip, listenfd);
         if ((listenfd = socket(p->ai_family, p->ai_socktype,
                     p->ai_protocol)) == -1)
         {
@@ -171,6 +176,7 @@ void doit(int fd)
     Rio_readinitb(&rio, fd);
     Rio_readlineb(&rio, buf, MAXLINE);
     sscanf(buf, "%s %s %s", method, uri, version);
+    printf("%s %s %s", method, uri, version);
     char *request_header;
     request_header = read_requestaddr(&rio);
     if (strcasecmp(method, "GET"))
@@ -249,12 +255,13 @@ char *read_requestaddr(rio_t *rp)
     char *header = Malloc(MAXBUF);
     Rio_readlineb(rp, buf, MAXLINE);
     printf("%lu\n", strlen(buf)); 
+    printf("%s\n", buf); 
     strcpy(header, buf);
     while (1)
     {
         Rio_readlineb(rp, buf, MAXLINE);
         printf("%lu\n", strlen(buf)); 
-        //printf("%s\n", buf); 
+        printf("%s\n", buf); 
         if (strcmp(buf, "\r\n") == 0)
             break;
         strcat(header, buf);
