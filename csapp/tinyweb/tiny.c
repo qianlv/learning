@@ -21,7 +21,7 @@ const char *change_sockaddr_to_ip(struct sockaddr_storage *ss_addr);
 int open_listen_socket(const char *port, int nlisten);
 int AcceptSelect(int listenfd);
 void doit(int fd);
-char *read_requestaddr(rio_t *rp);
+void read_requestaddr(rio_t *rp, char *header);
 int parse_uri(char *uri, char *filename, char *cgiargs);
 void serve_static(int fd, char *filename, int filesize, char *request_header);
 void get_filetype(char *filename, char *filetype);
@@ -29,6 +29,10 @@ void serve_dynamic(int fd, char *filename, char *cgiargs, char *request_header);
 void clienterror(int fd, char *cause, char *errnum,
                  char *shortmsg, char *longmsg, char *header);
 
+// ===  FUNCTION  ======================================================================
+//         Name:  open_listen_socket
+//  Description:  打开socket并监听 
+// =====================================================================================
 int open_listen_socket(const char *port, int nlisten)
 {
     struct addrinfo hints, *serverinfo, *p;
@@ -93,7 +97,11 @@ int open_listen_socket(const char *port, int nlisten)
     return listenfd;
 }
 
-/* get internet address (ipv4 or ipv6) */
+
+// ===  FUNCTION  ======================================================================
+//         Name:  get_in_addr
+//  Description:  get internet address (ipv4 or ipv6)
+// =====================================================================================
 void *get_in_addr(struct sockaddr *sa)
 {
     if (sa->sa_family == AF_INET)
@@ -103,7 +111,10 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-/* get ip address */
+// ===  FUNCTION  ======================================================================
+//         Name:  change_sockaddr_to_ip
+//  Description:  获取字符串形式的IP地址
+// =====================================================================================
 const char *change_sockaddr_to_ip(struct sockaddr_storage *ss_addr)
 {
     void *addr = get_in_addr((struct sockaddr*)ss_addr);
@@ -112,7 +123,11 @@ const char *change_sockaddr_to_ip(struct sockaddr_storage *ss_addr)
     return ip;
 }
 
-/* 监听请求 */
+
+// ===  FUNCTION  ======================================================================
+//         Name:  AcceptSelect
+//  Description:  监听Http请求
+// =====================================================================================
 int AcceptSelect(int listenfd)
 {
     fd_set master, read_fds;    
@@ -168,6 +183,11 @@ int AcceptSelect(int listenfd)
     return 0;
 }
 
+
+// ===  FUNCTION  ======================================================================
+//         Name:  doit
+//  Description:  处理http请求
+// =====================================================================================
 void doit(int fd)
 {
     char buf[MAXLINE], method[MAXLINE], uri[MAXLINE], version[MAXLINE];
@@ -176,9 +196,11 @@ void doit(int fd)
     Rio_readinitb(&rio, fd);
     Rio_readlineb(&rio, buf, MAXLINE);
     sscanf(buf, "%s %s %s", method, uri, version);
-    printf("%s %s %s", method, uri, version);
-    char *request_header;
-    request_header = read_requestaddr(&rio);
+//    printf("%s %s %s", method, uri, version);
+
+    char request_header[MAXBUF];
+    read_requestaddr(&rio, request_header);
+
     if (strcasecmp(method, "GET"))
     {
         clienterror(fd, method, "501", "Not Implemented", 
@@ -221,7 +243,11 @@ void doit(int fd)
     }
 }
 
-// response error msg to client
+
+// ===  FUNCTION  ======================================================================
+//         Name:  clienterror
+//  Description:  处理错误的HTTP请求
+// =====================================================================================
 void clienterror(int fd, char *cause, char *errnum, 
                  char *shortmsg, char *longmsg, char *request_header)
 {
@@ -248,27 +274,35 @@ void clienterror(int fd, char *cause, char *errnum,
     return;
 }
 
-// Ignores any of imformation in the request headers
-char *read_requestaddr(rio_t *rp)
+
+// ===  FUNCTION  ======================================================================
+//         Name:  read_requestaddr
+//  Description:  获取Http请求的header
+// =====================================================================================
+void read_requestaddr(rio_t *rp, char *header)
 {
     char buf[MAXLINE];
-    char *header = Malloc(MAXBUF);
     Rio_readlineb(rp, buf, MAXLINE);
-    printf("%lu\n", strlen(buf)); 
-    printf("%s\n", buf); 
+//    printf("%lu\n", strlen(buf)); 
+//    printf("%s\n", buf); 
     strcpy(header, buf);
     while (1)
     {
         Rio_readlineb(rp, buf, MAXLINE);
-        printf("%lu\n", strlen(buf)); 
-        printf("%s\n", buf); 
+//        printf("%lu\n", strlen(buf)); 
+//        printf("%s\n", buf); 
         if (strcmp(buf, "\r\n") == 0)
             break;
         strcat(header, buf);
     }
-    return header;
+    return ;
 }
 
+
+// ===  FUNCTION  ======================================================================
+//         Name:  parse_uri
+//  Description:  解析uri, 获取请求文件名和参数, 判断静态请求或动态请求.
+// =====================================================================================
 int parse_uri(char *uri, char *filename, char *cgiargs)
 {
     char *ptr;
@@ -298,12 +332,16 @@ int parse_uri(char *uri, char *filename, char *cgiargs)
     }
 }
 
-void serve_static(int fd, char *filename, int filesize, char *request_header)
-{
-    int srcfd;
-    char *srcp, filetype[MAXLINE], buf[MAXBUF];
 
-    // Send response headers to client
+// ===  FUNCTION  ======================================================================
+//         Name:  response_header
+//  Description:  Http正确请求的应答header
+// =====================================================================================
+void response_header ( int fd, char *filename, 
+                       int filesize, char *request_header)
+{
+    char filetype[MAXLINE], buf[MAXBUF];
+
     get_filetype(filename, filetype);
     sprintf(buf, "HTTP/1.0 200 OK\r\n");
     sprintf(buf, "%sServer: Tiny Web Server\r\n", buf);
@@ -311,6 +349,22 @@ void serve_static(int fd, char *filename, int filesize, char *request_header)
     sprintf(buf, "%sContent-length: %d\r\n", buf, filesize);
     sprintf(buf, "%sContent-type: %s\r\n\r\n", buf, filetype);
     Rio_writen(fd, buf, strlen(buf));
+     
+    return ;
+}	
+
+
+// ===  FUNCTION  ======================================================================
+//         Name:  serve_static
+//  Description:  处理Http静态文件请求
+// =====================================================================================
+void serve_static ( int fd, char *filename, 
+                    int filesize, char *request_header)
+{
+    int srcfd;
+    char *srcp;
+
+    response_header(fd, filename, filesize, request_header);
     
     // Send response body to client
     srcfd = Open(filename, O_RDONLY, 0);
@@ -320,6 +374,11 @@ void serve_static(int fd, char *filename, int filesize, char *request_header)
     Munmap(srcp, filesize);
 }
 
+
+// ===  FUNCTION  ======================================================================
+//         Name:  get_filetype
+//  Description:  获取文件类型
+// =====================================================================================
 void get_filetype(char *filename, char *filetype)
 {
     if (strstr(filename, ".html"))
@@ -332,15 +391,21 @@ void get_filetype(char *filename, char *filetype)
         strcpy(filetype, "text/plain");
 }
 
+// ===  FUNCTION  ======================================================================
+//         Name:  serve_dynamic
+//  Description:  处理CGI动态请求
+// =====================================================================================
 void serve_dynamic(int fd, char *filename, char *cgiargs, char *request_header)
 {
     char buf[MAXLINE], *emptylist[] = { NULL };
 
-    sprintf(buf, "HTTP/1.0 200 OK\r\n");
-    sprintf(buf, "%s%s", buf, request_header);
-    Rio_writen(fd, buf, strlen(buf));
-    sprintf(buf, "Server: Tiny Web Server\r\n");
-    Rio_writen(fd, buf, strlen(buf));
+//    sprintf(buf, "HTTP/1.0 200 OK\r\n");
+//    sprintf(buf, "%s%s", buf, request_header);
+//    Rio_writen(fd, buf, strlen(buf));
+//    sprintf(buf, "Server: Tiny Web Server\r\n");
+//    Rio_writen(fd, buf, strlen(buf));
+
+    response_header(fd, filename, 0, request_header);
 
     if (Fork() == 0)
     {
@@ -356,4 +421,6 @@ int main(int argc, char *argv[])
     int listenfd;
     listenfd = open_listen_socket("1054", 10);
     AcceptSelect(listenfd);
+    return 0;
 }
+
