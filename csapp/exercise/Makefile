@@ -31,5 +31,5 @@ $(object): %.o: %.c
 .PHONY: clean
 clean:
 	-rm *.o
-	-rm *.ouout
+	-rm *.out
 
