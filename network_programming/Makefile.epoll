@@ -1,0 +1,8 @@
+epoll: epoll.c base_socket.o
+	cc -g -Wall -o epoll epoll.c base_socket.o
+base_socket.o: base_socket.c
+	cc -c  base_socket.c base_socket.h
+
+.PHONY: clean
+clean:
+	-rm *.o epoll
