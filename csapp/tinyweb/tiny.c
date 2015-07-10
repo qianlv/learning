@@ -15,11 +15,15 @@
 // =====================================================================================
 
 #include "csapp.h"
+#include <sys/epoll.h>
+
+#define MAXEVENTS (20)
 
 void *get_in_addr(struct sockaddr *sa);
 const char *change_sockaddr_to_ip(struct sockaddr_storage *ss_addr);
 int open_listen_socket(const char *port, int nlisten);
-int AcceptSelect(int listenfd);
+void AcceptSelect(int listenfd);
+void AcceptEpoll(int listenfd);
 void doit(int fd);
 void read_requestaddr(rio_t *rp, char *header);
 int parse_uri(char *uri, char *filename, char *cgiargs);
@@ -128,7 +132,7 @@ const char *change_sockaddr_to_ip(struct sockaddr_storage *ss_addr)
 //         Name:  AcceptSelect
 //  Description:  监听Http请求
 // =====================================================================================
-int AcceptSelect(int listenfd)
+void AcceptSelect(int listenfd)
 {
     fd_set master, read_fds;    
     int fd_max;
@@ -145,6 +149,7 @@ int AcceptSelect(int listenfd)
             perror("select");
             exit(1);
         }
+
         int fd;
         for (fd = 0; fd <= fd_max; fd++)
         {
@@ -180,8 +185,89 @@ int AcceptSelect(int listenfd)
             }
         }
     }
-    return 0;
 }
+
+void AcceptEpoll ( int listenfd )
+{
+
+    int epollfd;
+    if ((epollfd = epoll_create1(0)) == -1)
+    {
+        perror("epoll_create1");
+        exit(EXIT_FAILURE);
+    }
+
+    struct epoll_event ev, *evs;
+    ev.events = EPOLLIN;
+    ev.data.fd = listenfd;
+    
+    if (epoll_ctl(epollfd, EPOLL_CTL_ADD, listenfd, &ev) == -1)
+    {
+        perror("epoll_ctl");
+        exit(EXIT_FAILURE);
+    }
+    
+    evs = (struct epoll_event*) Calloc(MAXEVENTS, sizeof(struct epoll_event));
+    
+    for ( ; ; ) 
+    {
+        int nready;
+        nready = epoll_wait(epollfd, evs, MAXEVENTS, -1);
+
+        int i;
+        for ( i = 0; i < nready; ++i) 
+        {
+            ev = evs[i];
+            if ((ev.events & EPOLLERR) || 
+                 (ev.events & EPOLLHUP) || 
+                (!(ev.events & EPOLLIN)))
+            {
+                fprintf(stderr, "epoll error: %u\n", ev.events); 
+                epoll_ctl(epollfd, EPOLL_CTL_DEL, ev.data.fd, NULL);
+                close(ev.data.fd); 
+                continue;
+            }
+
+            if (ev.data.fd == listenfd)
+            {
+                struct sockaddr sa;
+                socklen_t sa_len = sizeof (struct sockaddr);
+                int newfd;
+                LABLE: 
+                newfd = accept(listenfd, &sa, &sa_len);
+                if ( newfd == -1 )
+                {
+                    if ( errno == EINTR)
+                    {
+                        break;
+                        goto LABLE;
+                    }
+                    perror("accept");
+                    continue;
+                }
+
+                char ip[INET6_ADDRSTRLEN];
+                void *addr = get_in_addr(&sa);
+                inet_ntop(sa.sa_family, addr, ip, sizeof(ip));
+                printf("Accept connection %s on descriptor %d\n", ip, newfd);
+
+                struct epoll_event newev;
+                newev.data.fd = newfd;
+                newev.events = EPOLLIN | EPOLLONESHOT;
+                if (epoll_ctl(epollfd, EPOLL_CTL_ADD, newfd, &newev) == -1)
+                {
+                    perror("epoll_ctl");
+                    exit(EXIT_FAILURE);
+                }
+            }
+            else
+            {
+                doit(ev.data.fd);
+                Close(ev.data.fd);
+            }
+        }
+    }
+}		// -----  end of function AcceptEpoll  -----
 
 
 // ===  FUNCTION  ======================================================================
@@ -420,7 +506,8 @@ int main(int argc, char *argv[])
 {
     int listenfd;
     listenfd = open_listen_socket("1054", 10);
-    AcceptSelect(listenfd);
+    //AcceptSelect(listenfd);
+    AcceptEpoll(listenfd);
     return 0;
 }
 
