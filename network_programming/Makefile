@@ -1,14 +1,13 @@
 target = client.out server.out listener.out selectserver.out \
 		 talker.out showip.out
-object = client.o server.o listener.o selectserver.o \
-		 talker.o showip.o
 
-result: $(target)
-$(target): %.out: %.o
+result: $(target) epoll.out
+$(target): %.out: %.c
 	cc $< -o $@
-all: $(object)
-$(object): %.o: %.c
-	cc -c $< -o $@
+epoll.out: epoll.c base_socket.o
+	cc -g -Wall -o epoll.out epoll.c base_socket.o
+
+base_socket.o: base_socket.c
 
 .PHONY: clean
 clean:
