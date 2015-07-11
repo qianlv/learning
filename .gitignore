@@ -11,3 +11,7 @@
 # vim
 *.swp
 *.swo
+
+# dir
+thttpd-2.26
+
