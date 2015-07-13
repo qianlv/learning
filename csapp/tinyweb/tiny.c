@@ -187,6 +187,10 @@ void AcceptSelect(int listenfd)
     }
 }
 
+// ===  FUNCTION  ======================================================================
+//         Name:  AcceptEpoll
+//  Description:  监听Http请求，并处理
+// =====================================================================================
 void AcceptEpoll ( int listenfd )
 {
 
