@@ -1,5 +1,5 @@
 import re
-import sys
+
 def method1(txt):
     ret=""
     for line in txt.split("\n"):
