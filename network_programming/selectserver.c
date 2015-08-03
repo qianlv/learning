@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
             perror("select");
             exit(1);
         }
-        int i, j;
+        int i;
         for (i = 0; i <= fd_max; i++)
         {
             if (FD_ISSET(i, &read_fds)) 
