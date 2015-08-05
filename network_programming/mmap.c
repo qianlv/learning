@@ -27,7 +27,6 @@
 
 void *Mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset)
 {
-    off_t len;
     void *p;
 
     p = mmap(addr, length, prot, flags, fd, offset);

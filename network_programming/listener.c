@@ -42,7 +42,7 @@ void *get_in_addr(struct sockaddr *sa)
 
 int main(void)
 {
-    int sockfd, new_fd;
+    int sockfd;
     int rv;
     int numbytes;
     struct addrinfo hints, *serverinfo, *p;
