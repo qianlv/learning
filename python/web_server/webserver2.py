@@ -57,12 +57,14 @@ class WSGIServer(object):
 
         # It't time to call our application callable and get
         # back a result that will become HTTP response body
-        result = self.application(env, self.start_respose)
+        result = self.application(env, self.start_response)
 
         # Construct a response and send it back to the client
         self.finish_response(result)
 
     def parse_request(self, text):
+        if not text:
+            print '--------'
         request_line = text.splitlines()[0]
         request_line = request_line.rstrip('\r\n')
         # Break down the request lien into components
