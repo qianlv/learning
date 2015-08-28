@@ -80,6 +80,10 @@ int main(int argc, char *argv[])
         
         if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1)
         {
+            if (errno == ECONNREFUSED)
+            {
+                fprintf(stderr, "recv rst error\n");
+            }
             close(sockfd);
             perror("server: connect");
             continue;
