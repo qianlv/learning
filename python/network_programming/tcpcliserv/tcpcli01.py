@@ -1,7 +1,8 @@
 # encoding=utf-8
 
 import socket
-# import time
+import time
+import signal
 import sys
 from lib import entry_retry
 
@@ -24,14 +25,20 @@ def str_cli(client_sock):
         if not msg:
             break
         client_sock.sendall(msg)
-        # time.sleep(1)
-        # client_sock.sendall(msg)
+        time.sleep(1)
+        client_sock.sendall(msg)
         res_msg = readn(client_sock, len(msg))
         print res_msg
 
 
+def handle_sigpip(sig, stack):
+    print "recived a sigpipe signal"
+    return
+
+
 def client(address):
     client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    signal.signal(signal.SIGPIPE, handle_sigpip)
     client_sock.connect(address)
     str_cli(client_sock)
 

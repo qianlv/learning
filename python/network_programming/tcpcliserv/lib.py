@@ -3,6 +3,7 @@
 import errno
 from contextlib import wraps
 
+
 def entry_retry(func, *args):
     while True:
         try:
