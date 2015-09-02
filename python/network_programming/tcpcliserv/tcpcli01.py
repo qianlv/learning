@@ -1,3 +1,4 @@
+""" a simple tcp client """
 # encoding=utf-8
 
 import socket

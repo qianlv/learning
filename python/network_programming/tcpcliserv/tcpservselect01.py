@@ -1,3 +1,4 @@
+""" a simple asynchronous tcp server """
 # encoding=utf-8
 
 import socket
@@ -31,7 +32,7 @@ def server(address, listen_size):
 
         for sock in rlist:
             if server_sock == sock:
-                client_sock, client_adress = entry_retry(sock.accept)
+                client_sock, _ = entry_retry(sock.accept)
                 print client_sock
                 rset.append(client_sock)
             else:

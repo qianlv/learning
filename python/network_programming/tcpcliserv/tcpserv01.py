@@ -1,3 +1,5 @@
+''' tcpser01
+'''
 # encoding=utf-8
 
 import socket
@@ -10,6 +12,7 @@ MAX_RECV = 16
 
 
 def str_echo(client_sock):
+    ''' str_echo '''
     print "client {0} start".format(os.getpid())
     while True:
         data = entry_retry(client_sock.recv, MAX_RECV)
@@ -22,6 +25,7 @@ def str_echo(client_sock):
 
 
 def reap_child(sig, stack):
+    ''' reap_child '''
     while True:
         try:
             pid, _ = os.waitpid(
@@ -38,12 +42,13 @@ def reap_child(sig, stack):
 
 
 def server(address, listen_size):
+    ''' server '''
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_sock.bind(address)
     server_sock.listen(listen_size)
     signal.signal(signal.SIGCHLD, reap_child)
     while True:
-        client_sock, client_address = entry_retry(server_sock.accept)
+        client_sock, _ = entry_retry(server_sock.accept)
         pid = os.fork()
         if pid == 0:
             server_sock.close()

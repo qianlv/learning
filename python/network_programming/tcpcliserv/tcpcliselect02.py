@@ -1,10 +1,10 @@
+""" a simple asynchronous tcp client """
 # encoding=utf-8
 
 import socket
 # import time
 import signal
 import sys
-import os
 import select
 from lib import entry_retry
 
@@ -12,16 +12,16 @@ MAX_RECV = 1024
 
 
 def readn(client_sock, size):
-    data = entry_retry(client_sock.recv, MAX_RECV)
+    data = entry_retry(client_sock.recv, size)
     return data
 
 
 def str_cli(client_sock):
     stdineof = False
-    rl = [sys.stdin, client_sock]
+    inputlist = [sys.stdin, client_sock]
     while True:
         rlist, _, _ = entry_retry(
-            select.select, rl, [], []
+            select.select, inputlist, [], []
         )
 
         print rlist
@@ -30,7 +30,7 @@ def str_cli(client_sock):
             if not msg:
                 stdineof = True
                 client_sock.shutdown(socket.SHUT_WR)
-                rl.remove(sys.stdin)
+                inputlist.remove(sys.stdin)
                 continue
             client_sock.sendall(msg)
 
@@ -39,7 +39,7 @@ def str_cli(client_sock):
             if not res_msg:
                 if stdineof:
                     return
-                os.exit("str_cli: server terminated prematurely")
+                sys.exit("str_cli: server terminated prematurely")
             print res_msg
 
 

@@ -1,3 +1,4 @@
+""" a simple asynchronous tcp client """
 # encoding=utf-8
 
 import socket
@@ -11,15 +12,8 @@ MAX_RECV = 16
 
 
 def readn(client_sock, size):
-    res_data = ''
-    nleft = size
-    while True:
-        data = entry_retry(client_sock.recv, min(nleft, MAX_RECV))
-        nleft -= len(data)
-        res_data += data
-        if not data or nleft <= 0:
-            break
-    return res_data
+    data = entry_retry(client_sock.recv, size)
+    return data
 
 
 def str_cli(client_sock):
@@ -32,21 +26,16 @@ def str_cli(client_sock):
         )
 
         print rlist
-        # XXX: msg_size 可能被覆盖, 如果在读取socket中的数据之前
-        # 先从stdin中读取了数据.
         if sys.stdin in rlist:
             msg = sys.stdin.read()
             if not msg:
                 break
             client_sock.sendall(msg)
-            msg_size = len(msg)
-            print msg_size
 
         if client_sock in rlist:
-            res_msg = readn(client_sock, msg_size)
+            res_msg = readn(client_sock, MAX_RECV)
             if not res_msg:
                 break
-            msg_size = 0
             print res_msg
 
 
