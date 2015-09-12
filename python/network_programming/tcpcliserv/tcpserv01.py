@@ -7,6 +7,7 @@ import os
 import signal
 
 from lib import entry_retry
+from lib import tcp_listen
 
 MAX_RECV = 16
 
@@ -43,10 +44,7 @@ def reap_child(sig, stack):
 
 def server(address, listen_size):
     ''' server '''
-    server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_sock.bind(address)
-    server_sock.listen(listen_size)
+    server_sock = tcp_listen(address[0], address[1], listen_size)
     signal.signal(signal.SIGCHLD, reap_child)
     while True:
         client_sock, _ = entry_retry(server_sock.accept)
