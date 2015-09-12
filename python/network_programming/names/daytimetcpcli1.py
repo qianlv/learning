@@ -33,5 +33,5 @@ if __name__ == '__main__':
     if len(sys.argv) != 3:
         print 'usage: python daytimetcpcli1.py <hostname> <service>'
     else:
-        daytimecli(sys.argv[1], sys.argv[2])
+        # daytimecli(sys.argv[1], sys.argv[2])
         daytimecli1(sys.argv[1], sys.argv[2])
