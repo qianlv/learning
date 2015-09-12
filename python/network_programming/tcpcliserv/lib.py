@@ -3,6 +3,7 @@
 # encoding=utf-8
 
 import errno
+import socket
 from contextlib import wraps
 
 
@@ -28,3 +29,28 @@ def interrupted(func):
                     continue
                 raise
     return inner
+
+
+def tcp_connect(hostname, server):
+    addrinfo = socket.getaddrinfo(
+        hostname,
+        server,
+        socket.AF_UNSPEC,
+        socket.SOCK_STREAM,
+    )
+
+    for family, socktype, proto, canonname, sockaddr in addrinfo:
+        print canonname
+        sock = socket.socket(family, socktype, proto)
+        try:
+            sock.connect(sockaddr)
+        except socket.error as err:
+            print 'Connect error: {0}, {1}'.format(err.args[0], err.args[1])
+            sock.close()
+            sock = None
+
+        if sock:
+            return sock
+    return None
+
+
