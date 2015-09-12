@@ -45,4 +45,4 @@ def client(address):
 
 
 if __name__ == '__main__':
-    client(('localhost', 8888))
+    client((sys.argv[1], sys.argv[2]))
