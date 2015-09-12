@@ -44,6 +44,7 @@ def reap_child(sig, stack):
 def server(address, listen_size):
     ''' server '''
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_sock.bind(address)
     server_sock.listen(listen_size)
     signal.signal(signal.SIGCHLD, reap_child)
