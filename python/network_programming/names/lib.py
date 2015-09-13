@@ -38,7 +38,7 @@ def tcp_connect(hostname, server):
         hostname,
         server,
         socket.AF_UNSPEC,
-        socket.SOCK_STREAM,
+        socket.SOCK_STREAM
     )
 
     sock = None
@@ -74,7 +74,7 @@ def tcp_listen(hostname, server, nlisten):
     for family, socktype, proto, _, sockaddr in addrinfo:
         try:
             sock = socket.socket(family, socktype, proto)
-            if hasattr(socket, AF_INET6) and family == socket.AF_INET6:
+            if hasattr(socket, 'AF_INET6') and family == socket.AF_INET6:
                 sock.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
         except socket.error:
             continue

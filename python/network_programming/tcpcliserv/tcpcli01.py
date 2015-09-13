@@ -6,6 +6,7 @@ import time
 import signal
 import sys
 from lib import entry_retry
+from lib import tcp_connect
 
 MAX_RECV = 16
 
@@ -38,11 +39,10 @@ def handle_sigpip(sig, stack):
 
 
 def client(address):
-    client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_sock = tcp_connect(*address)
     signal.signal(signal.SIGPIPE, handle_sigpip)
-    client_sock.connect(address)
     str_cli(client_sock)
 
 
 if __name__ == '__main__':
-    client(('localhost', 8888))
+    client((sys.argv[1], sys.argv[2]))
