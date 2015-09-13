@@ -1,7 +1,5 @@
 # encoding=utf-8
 
-def test():
-    print 'abc'
 
 class Singleton(object):
     @staticmethod
@@ -18,6 +16,3 @@ if __name__ == '__main__':
     tt = Singleton.instance()
     ttt = Singleton.instance()
     t.input('abv')
-
-
-
