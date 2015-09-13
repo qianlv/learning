@@ -1,4 +1,4 @@
-#encoding=utf-8
+#   encoding=utf-8
 import re
 
 def method1(txt):
