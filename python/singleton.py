@@ -3,6 +3,7 @@
 def test():
     print 'abc'
 
+
 class Singleton(object):
     @staticmethod
     def instance():
