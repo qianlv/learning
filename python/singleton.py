@@ -1,5 +1,8 @@
 # encoding=utf-8
 
+def test():
+    print 'abc'
+
 class Singleton(object):
     @staticmethod
     def instance():
