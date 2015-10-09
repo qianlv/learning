@@ -1,7 +1,0 @@
-
-Hello, world!
-
-This is a carriage return in the middle of a line -><- which should
-not be replaced.
-
-No terminator on the last line.
