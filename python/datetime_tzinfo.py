@@ -63,3 +63,45 @@ print utc8_time
 print utc7_time
 timespan = utc8_time - utc7_time
 print type(timespan), timespan.total_seconds()
+
+'''
+时区模块pytz
+'''
+
+import pytz
+
+# 对于国家的时区列表
+print pytz.country_timezones('cn')  # [u'Asia/Shanghai', u'Asia/Urumqi']
+
+tz = pytz.timezone('Asia/Shanghai')
+dt = datetime.datetime(*test_tuple, tzinfo=tz)
+print repr(dt)
+# datetime.datetime(2015, 10, 11, 14, 58,
+# tzinfo=<DstTzInfo 'Asia/Shanghai' LMT+8:06:00 STD>)
+# dt有一个LMT(local Mean Time)为本地平均时间, 时间是+8:06, 比北京时间快6分钟
+dt_cst = datetime.datetime(*test_tuple, tzinfo=utc8)
+print dt_cst == dt  # False
+
+# 正确获取构造offset-aware类型datetime object的方法是:
+# 使用timezone.localize()方法生成带时区的datetime, 不要通过构造函数中传入tzinfo的方式实现
+dt2 = datetime.datetime(*test_tuple)
+dt2 = tz.localize(dt2)
+print repr(dt2)
+# datetime.datetime(2015, 10, 11, 14, 58,
+# tzinfo=<DstTzInfo 'Asia/Shanghai' CST+8:00:00 STD>)
+# dt2 变为CST(Central Standard Time), 时间+8:00:00也是对的
+print dt2 == dt_cst  # True
+
+# 夏令时
+# 通过timezone.normalize函数处理夏令时
+# 特别在时区之间转换的时候调用normalize函数
+eastern = pytz.timezone('US/Eastern')
+dt3 = datetime.datetime(2002, 10, 27, 1, 0)
+dt3 = eastern.localize(dt3)
+print dt3   # 2002-10-27 01:00:00-05:00
+dt4 = dt3 - datetime.timedelta(minutes=10)
+print dt4   # 2002-10-27 00:50:00-05:00
+dt5 = eastern.normalize(dt4)
+print dt5   # 2002-10-27 01:50:00-04:00
+print repr(dt4.tzinfo)
+print repr(dt5.tzinfo)
