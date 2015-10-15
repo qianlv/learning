@@ -45,7 +45,7 @@ class Solution(object):
             k = n - 1
             # print i, j
             while j < k:
-                print j, k
+                # print j, k
                 val = nums[i] + nums[j] + nums[k]
                 if val == 0:
                     res.append((nums[i], nums[j], nums[k]))
