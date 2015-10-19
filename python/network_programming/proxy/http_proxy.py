@@ -3,11 +3,12 @@
 import requests
 from requests.exceptions import RequestException
 import BaseHTTPServer
-from SocketServer import ThreadingMixIn
+# from SocketServer import ThreadingMixIn
 
 
 class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     def __write_response(self, ret):
+        print len(ret.content)
         self.send_response(ret.status_code)
         for key in ret.headers:
             self.send_header(key, ret.headers[key])
@@ -38,12 +39,12 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.__write_response(ret)
 
 
-class ThreadHttpServer(ThreadingMixIn, BaseHTTPServer.HTTPServer):
+class HttpServer(BaseHTTPServer.HTTPServer):
     pass
 
 
 def main():
-    server = ThreadHttpServer(('', 9876), Handler)
+    server = HttpServer(('', 9876), Handler)
     server.serve_forever()
 
 if __name__ == '__main__':
