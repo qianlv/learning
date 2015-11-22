@@ -9,7 +9,7 @@ class Socket(object):
         self.sock = sock
 
     def accept(self):
-        yield ReadWait(self, self.sock)
+        yield ReadWait(self.sock)
         client, addr = self.sock.accept()
         yield Socket(client), addr
 
