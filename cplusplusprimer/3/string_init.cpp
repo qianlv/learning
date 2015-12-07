@@ -34,7 +34,7 @@ int main()
     // 直接初始化和拷贝初始化
     string s5 = "hiya";     // 拷贝初始化 
     string s6("hiya");      // 直接初始化
-    stirng s7(10, 'c');     // 直接初始化
+    string s7(10, 'c');     // 直接初始化
     string s8 = string(10, 'c');    // 拷贝初始化 
 
 }
