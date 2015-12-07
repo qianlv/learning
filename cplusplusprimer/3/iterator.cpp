@@ -59,4 +59,7 @@ int main()
     for (const_iterator it = text.begin();
          it != text.end() && !it->empty(); ++it)
         cout << *it << endl;
+
+    vector<string>::difference_type diff = text.end() - text.begin();
+    cout << diff << endl;
 }

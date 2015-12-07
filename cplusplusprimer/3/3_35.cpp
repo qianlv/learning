@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  vec_fun.cpp
+ *       Filename:  3_35.cpp
  *
- *    Description:  
+ *    Description:  3.35
  *
  *        Version:  1.0
- *        Created:  2015年12月06日 20时17分14秒 CST
+ *        Created:  2015年12月07日 17时19分27秒 CST
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -27,22 +27,21 @@ using std::string;
 #include <vector>
 using std::vector;
 
+#include <iterator>
+using std::begin;
+using std::end;
+
 int main()
 {
-    vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9};
-    for (auto &i : v)
-        i *= i;
-    for (auto i : v)
-        cout << i << " ";
-    cout << endl;
-
-    vector<unsigned> socores(10, 0);
-    unsigned grade;
-    while (cin >> grade)
+    const size_t sz = 10;
+    int ia[sz];
+    int *pbeg = begin(ia);    
+    int *pend = end(ia);
+    while (pbeg != pend)
     {
-        if (grade <= 100)
-        {
-            ++socores[grade/10];
-        }
+        *pbeg = 0;
+        ++pbeg;
     }
+    for (int *ptr = begin(ia); ptr != end(ia); ++ptr)
+        cout << *ptr << endl;
 }

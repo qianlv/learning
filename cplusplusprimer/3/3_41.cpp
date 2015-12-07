@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  vec_fun.cpp
+ *       Filename:  3_41.cpp
  *
- *    Description:  
+ *    Description: 3.41 
  *
  *        Version:  1.0
- *        Created:  2015年12月06日 20时17分14秒 CST
+ *        Created:  2015年12月07日 21时05分28秒 CST
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -27,22 +27,16 @@ using std::string;
 #include <vector>
 using std::vector;
 
+#include <iterator>
+using std::begin;
+using std::end;
+
 int main()
 {
-    vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9};
-    for (auto &i : v)
-        i *= i;
-    for (auto i : v)
-        cout << i << " ";
-    cout << endl;
-
-    vector<unsigned> socores(10, 0);
-    unsigned grade;
-    while (cin >> grade)
+    int ia[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    vector<int> ivec(begin(ia), end(ia));
+    for (auto it = ivec.begin(); it != ivec.end(); ++it)
     {
-        if (grade <= 100)
-        {
-            ++socores[grade/10];
-        }
+        cout << *it << endl;
     }
 }
