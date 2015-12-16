@@ -20,11 +20,6 @@
 
 #include "scales_data.h"
 
-Scales_data::Scales_data(std::istream &is)
-{
-    read(is, *this);
-}
-
 Scales_data& Scales_data::combine(const Scales_data &rhs)
 {
     units_sold += rhs.units_sold;

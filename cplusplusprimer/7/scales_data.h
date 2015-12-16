@@ -29,11 +29,25 @@ class Scales_data
     friend std::istream &read(std::istream&, Scales_data&);
 
 public:
-    Scales_data() = default;    // default 表示使用合成构造函数
-    Scales_data(const std::string &s) : bookNo(s) {}
+    // Scales_data() = default;    // default 表示使用合成构造函数
     Scales_data(const std::string &s, unsigned n, double p) :
-                bookNo(s), units_sold(n), revenue(p*n) {}
-    Scales_data(std::istream &);
+                bookNo(s), units_sold(n), revenue(p*n) 
+    {
+        std::cout << "Scales_data(s, n, p)" << std::endl;
+    }
+    Scales_data() : Scales_data("", 0, 0)
+    {
+        std::cout << "Scales_data()" << std::endl;
+    }
+    Scales_data(const std::string &s) : Scales_data(s, 0, 0)
+    {
+        std::cout << "Scales_data(s)" << std::endl;
+    }
+    Scales_data(std::istream &is) : Scales_data()
+    {
+        std::cout << "Scales_data(is)" << std::endl;
+        read(is, *this);
+    }
 
     std::string isbn() const { return bookNo; }
     Scales_data& combine(const Scales_data&);

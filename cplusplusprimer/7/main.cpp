@@ -19,9 +19,11 @@
 #include <iostream>
 #include "screen.h"
 #include "window.h"
+#include "scales_data.h"
 
 int main()
 {
+    Scales_data total(std::cin);
     Screen myScreen(5, 3, '$');
     const Screen blank(5, 3, '0');
     myScreen.move(1, 3).set('#').display(std::cout);

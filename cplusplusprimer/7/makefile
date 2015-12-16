@@ -16,8 +16,8 @@ window.o: window.h
 7_13.exe: scales_data.o 7_13.o
 	 $(CC) $(CCFLAGS) scales_data.o 7_13.o -o 7_13.exe
 
-main.exe: screen.o main.o window.o
-	 $(CC) $(CCFLAGS) window.o screen.o main.o -o main.exe
+main.exe: screen.o main.o window.o scales_data.o
+	 $(CC) $(CCFLAGS) window.o screen.o main.o scales_data.o -o main.exe
 
 7_27.exe: screen.o 7_27.o
 	 $(CC) $(CCFLAGS) screen.o 7_27.o -o 7_27.exe

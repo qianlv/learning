@@ -28,8 +28,8 @@ class Screen
     friend void Window_mgr::clear(ScreenIndex);
     // friend class Window_mgr;
 public:
-    typedef std::string::size_type pos;
-    // using pos = std::string::size_type;
+    // typedef std::string::size_type pos;
+    using pos = std::string::size_type;
     Screen() = default;
     Screen(pos ht, pos wd) :
         height(ht), width(wd), contents(ht * wd, ' ') { }    
