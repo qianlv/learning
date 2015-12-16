@@ -39,14 +39,23 @@ public:
     Scales_data& combine(const Scales_data&);
 
 private:
-    double avg_price() const;
+    inline double avg_price() const;
     std::string bookNo;
     unsigned units_sold = 0;
     double revenue = 0;
 };
 
+inline double Scales_data::avg_price() const
+{
+    if (units_sold)
+        return revenue / units_sold;
+    else
+        return 0;
+}
+
 Scales_data add(const Scales_data&, const Scales_data&);
 std::ostream &print(std::ostream&, const Scales_data&);
 std::istream &read(std::istream&, Scales_data&);
+
 
 #endif

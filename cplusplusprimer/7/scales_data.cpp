@@ -25,14 +25,6 @@ Scales_data::Scales_data(std::istream &is)
     read(is, *this);
 }
 
-double Scales_data::avg_price() const
-{
-    if (units_sold)
-        return revenue / units_sold;
-    else
-        return 0;
-}
-
 Scales_data& Scales_data::combine(const Scales_data &rhs)
 {
     units_sold += rhs.units_sold;
