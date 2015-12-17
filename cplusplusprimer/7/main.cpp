@@ -17,13 +17,28 @@
  */
 
 #include <iostream>
+#include <string>
 #include "screen.h"
 #include "window.h"
 #include "scales_data.h"
+#include "debug.h"
 
 int main()
 {
-    Scales_data total(std::cin);
+    constexpr Debug io_sub(false, true, false);
+    if (io_sub.any())
+        std::cerr << "print appropriate error messages" << std::endl;
+    constexpr Debug prob(false);
+    if (prob.any())
+        std::cerr << "print an error messages" << std::endl;
+
+    // Scales_data total(std::cin);
+    std::string null_book("abc");
+    // Scales_data item = null_book;  // explicit Scales_data(std::string) cause error
+    Scales_data item;
+    item.combine(Scales_data(null_book));
+    item.combine(static_cast<Scales_data>(std::cin));
+
     Screen myScreen(5, 3, '$');
     const Screen blank(5, 3, '0');
     myScreen.move(1, 3).set('#').display(std::cout);

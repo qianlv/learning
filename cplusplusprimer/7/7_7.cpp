@@ -35,6 +35,7 @@ int main()
         {
             if (total.isbn() == trans.isbn())
             {
+
                 total.combine(trans);
             }
             else
