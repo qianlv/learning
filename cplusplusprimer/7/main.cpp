@@ -17,13 +17,19 @@
  */
 
 #include <iostream>
+#include <string>
+
 #include "screen.h"
 #include "window.h"
 #include "scales_data.h"
 
 int main()
 {
-    Scales_data total(std::cin);
+    Scales_data item;
+    std::string null_book = "9-999-99999-9";
+    item.combine(null_book);
+    print(std::cout, item) << std::endl;
+
     Screen myScreen(5, 3, '$');
     const Screen blank(5, 3, '0');
     myScreen.move(1, 3).set('#').display(std::cout);
