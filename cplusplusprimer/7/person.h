@@ -30,7 +30,7 @@ public:
     Person() = default;
     Person(const std::string &sname, const std::string &saddress) :
         name(sname), address(saddress) {}
-    Person(std::istream &is) { read(is, *this); }
+    explicit Person(std::istream &is) { read(is, *this); }
     auto get_name() const -> std::string const& { return name; }
     auto get_addr() const -> std::string const& { return address; }
 

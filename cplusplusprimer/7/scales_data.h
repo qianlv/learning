@@ -39,11 +39,12 @@ public:
     {
         std::cout << "Scales_data()" << std::endl;
     }
-    Scales_data(const std::string &s) : Scales_data(s, 0, 0)
+    explicit Scales_data(const std::string &s) : Scales_data(s, 0, 0)
     {
         std::cout << "Scales_data(s)" << std::endl;
     }
-    Scales_data(std::istream &is) : Scales_data()
+
+    explicit Scales_data(std::istream &is) : Scales_data()
     {
         std::cout << "Scales_data(is)" << std::endl;
         read(is, *this);
