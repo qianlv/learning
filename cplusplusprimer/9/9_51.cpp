@@ -78,17 +78,17 @@ public:
     }
 private:
     unsigned int year, month, day;
-    static vector<string> mstr;
-    static vector<string> mstr_abb;
+    static const vector<string> mstr;
+    static const vector<string> mstr_abb;
 };
 
-vector<string> Date::mstr = {
+const vector<string> Date::mstr = {
     "january", "february", "march", "april",
     "may", "june", "july", "august", "september",
     "october", "november", "december" 
 };
 
-vector<string> Date::mstr_abb = {
+const vector<string> Date::mstr_abb = {
     "jan", "feb", "mar", "apr", "may", "jun", "jul",
     "aug", "sept", "oct", "nov", "dec"
 };
