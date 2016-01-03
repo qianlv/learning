@@ -18,10 +18,7 @@
 
 #include <iostream>
 #include <string>
-<<<<<<< HEAD
 
-=======
->>>>>>> c1a049187d6c7e97936389e1c1c47f84ddbb59c4
 #include "screen.h"
 #include "window.h"
 #include "scales_data.h"
@@ -29,12 +26,10 @@
 
 int main()
 {
-<<<<<<< HEAD
     Scales_data item;
     std::string null_book = "9-999-99999-9";
     item.combine(null_book);
     print(std::cout, item) << std::endl;
-=======
     constexpr Debug io_sub(false, true, false);
     if (io_sub.any())
         std::cerr << "print appropriate error messages" << std::endl;
@@ -48,7 +43,6 @@ int main()
     Scales_data item;
     item.combine(Scales_data(null_book));
     item.combine(static_cast<Scales_data>(std::cin));
->>>>>>> c1a049187d6c7e97936389e1c1c47f84ddbb59c4
 
     Screen myScreen(5, 3, '$');
     const Screen blank(5, 3, '0');
