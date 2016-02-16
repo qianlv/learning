@@ -50,7 +50,7 @@ void Message::remove_from_folders()
         f->remMsg(this);
 }
 
-void move_folders(Message *m)
+void Message::move_folders(Message *m)
 {
     if (m)
     {
@@ -97,7 +97,7 @@ Message& Message::operator= (const Message &rhs)
 
 Message& Message::operator= (Message &&m) 
 {
-    if (this != &rhs)
+    if (this != &m)
     {
         remove_from_folders();
         contents = std::move(m.contents);

@@ -85,6 +85,11 @@ void StrVec::push_back(const string &s)
     chk_n_alloc();
     alloc.construct(first_free++, s);
 }
+void StrVec::push_back(string &&s)
+{
+    chk_n_alloc();
+    alloc.construct(first_free++, std::move(s));
+}
 
 pair<string *, string *>
 StrVec::alloc_n_copy(const string *b, const string *e)
@@ -100,7 +105,7 @@ void StrVec::free()
         std::for_each(elements, first_free, [this] (string &rhs) { alloc.destroy(&rhs); });
 //        for (auto p = first_free; p != elements; )
 //            alloc.destory(--p);
-//        alloc.deallocate(elements, cap - elements);
+        alloc.deallocate(elements, cap - elements);
     }
 }
 
@@ -144,7 +149,7 @@ void StrVec::alloc_n_move(size_t new_cap)
                                        make_move_iterator(end()),
                                        first);
         free();
-        elements = fisrt;
+        elements = first;
         first_free = last;
         cap = first + new_cap;
     }

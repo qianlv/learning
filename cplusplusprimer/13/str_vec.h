@@ -40,6 +40,7 @@ public:
     StrVec& operator= (StrVec &&) noexcept;
     ~StrVec();
     void push_back(const string &);
+    void push_back(string &&);
     size_t size() const 
     {
         return first_free - elements;

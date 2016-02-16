@@ -1,5 +1,5 @@
 OBJECTS = 13_5.exe 13_8.exe destructor.exe 13_17_3.exe default.exe 13_28.exe \
-		   13_31.exe folders.exe str_vec.exe String.exe main.exe
+		   13_31.exe folders.exe str_vec.exe String.exe main.exe 13_58.exe
 
 include ../GNU_makefile_template
 

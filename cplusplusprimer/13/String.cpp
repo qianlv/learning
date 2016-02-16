@@ -39,6 +39,7 @@ String::String(const char *s)
 {
     int len = std::strlen(s);
     range_init(s, s + len + 1);
+    cout << "String(const char *)" << endl;
 }
 
 String::String(const String &rhs)
@@ -51,6 +52,7 @@ String::String(String &&s) noexcept :
     elements(s.elements), end(s.end)
 {
     s.elements = s.end = nullptr;
+    cout << "String(String &&)" << endl;
 }
 
 String::~String()
@@ -69,7 +71,7 @@ String& String::operator= (const String &rhs)
     return *this;
 }
 
-String& String::operator= (String &&rhs)
+String& String::operator= (String &&rhs) noexcept
 {
     if (this != &rhs)
     {
@@ -139,8 +141,14 @@ int main()
     cout << "----" << endl;
     std::vector<String> svec;
     svec.push_back(s0);
+    cout << "---1" << endl;
     svec.push_back(s1);
+    cout << "---2" << endl;
     svec.push_back(baz());
+    cout << "---3" << endl;
     svec.push_back("good job");
+    cout << "---4" << endl;
+    svec.push_back("good job");
+    cout << "---5" << endl;
     cout << "----" << endl;
 }
