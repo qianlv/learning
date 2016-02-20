@@ -51,8 +51,8 @@ String::String(const String &rhs)
 String::String(String &&s) noexcept :
     elements(s.elements), end(s.end)
 {
-    s.elements = s.end = nullptr;
     cout << "String(String &&)" << endl;
+    s.elements = s.end = nullptr;
 }
 
 String::~String()
@@ -75,6 +75,7 @@ String& String::operator= (String &&rhs) noexcept
 {
     if (this != &rhs)
     {
+        cout << "String& operator= (String &&) noexcept" << endl;
         free();
         elements = rhs.elements;
         end = rhs.end;
@@ -117,11 +118,16 @@ void bar(const String& x)
 String baz()
 {
     String ret("world");
-    return ret;
+    return std::move(ret);
 }
 
 int main()
 {
+    cout << "++++" << endl; 
+    String vvv = baz();
+    //vvv = baz();
+    vvv.debug();
+    cout << "++++" << endl;
     String t("test"), v(t), vv;
     vv = v;
     t.debug();
