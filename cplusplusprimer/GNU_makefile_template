@@ -54,5 +54,5 @@ clean:
 	rm -rf *.o core *.stackdump
 
 # target to remove executable files as well as object and core files
-clobber: clean
+allclean: clean
 	rm -rf *.exe 
