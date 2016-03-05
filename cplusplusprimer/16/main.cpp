@@ -35,6 +35,7 @@ using std::list;
 class A
 {};
 
+
 int main()
 {
     // 16.4
@@ -80,7 +81,9 @@ int main()
     cout << std::max<double>(1, 1.2) << endl;
     
     int *p = new int(10);
-    ch16::print1(cout, "ab", 1, p) << endl;
+    const char *cc = "ab";
+    // ch16::print1(cout, cc, 1, p) << endl;
+    // cout << ch16::debug_rep("ab") << endl;
     ch16::errMsg(std::cerr, "ab", 1, 3.3) << endl;
     // ch16::print1(cout, "ab", Ivec, 1, "ve");
     

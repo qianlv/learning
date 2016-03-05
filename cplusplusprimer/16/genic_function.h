@@ -40,12 +40,9 @@ namespace ch16
         if (f(v2, v1)) return 1;
         return 0;
     }
-    
-    template <>
-    int compare(const char* const &p1, const char* const &p2)
-    {
-        return std::strcmp(p1, p2);
-    }
+
+    // template <>
+    // int compare(const char* const &p1, const char* const &p2, int f)
 
     template<typename Iterator, typename T>
     Iterator find(Iterator first, Iterator last, const T& val)
@@ -141,6 +138,9 @@ namespace ch16
         return ret.str();
     }
 
+    template <> std::string debug_rep(const char *p);
+    template <> std::string debug_rep(char *p);
+
     template <typename T>
     std::ostream &print1(std::ostream &os, const T &t)
     {
@@ -169,4 +169,5 @@ namespace ch16
         return std::shared_ptr<T>(new T(std::forward<Args>(rest)...));
     }
 }
+
 #endif // GENIC_FUNCTION_H_
