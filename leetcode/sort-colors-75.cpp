@@ -16,20 +16,20 @@
  * =====================================================================================
  */
 
-//#include <iostream>
-//#include <algorithm>
-//#include <vector>
-//using namespace std;
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
 
-//template <typename T>
-//void output(const std::vector<T>& vec)
-//{
-    //std::for_each(vec.begin(), vec.end(),
-                //[](const T& v) {
-                    //cout << v << " ";
-                //});
-    //cout << endl;
-//}
+template <typename T>
+void output(const std::vector<T>& vec)
+{
+    std::for_each(vec.begin(), vec.end(),
+                [](const T& v) {
+                    cout << v << " ";
+                });
+    cout << endl;
+}
 
 class Solution
 {
