@@ -3,7 +3,7 @@
  *
  *       Filename:  recover-binary-serach-tree-99.cpp
  *
- *    Description:  
+ *    Description:  中序遍历，顺序行判断交换点
  *
  *        Version:  1.0
  *        Created:  2016年06月07日 09时43分29秒
