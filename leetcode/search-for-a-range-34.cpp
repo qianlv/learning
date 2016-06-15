@@ -45,7 +45,7 @@ public:
         return {l, r -1};
     }
 
-    int lower_bound(vector<int>& nums, int target) /* return first element less or equal target, nums.size() is not found */
+    int lower_bound(vector<int>& nums, int target) /* return first element greater or equal target, nums.size() is not found */
     {
         int l = 0, r = (int)nums.size() - 1;
         while (l <= r)
