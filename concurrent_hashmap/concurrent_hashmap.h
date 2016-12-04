@@ -8,10 +8,11 @@
  *        Version:  1.0
  *        Created:  11/30/2016 10:06:50 PM
  *       Revision:  none
- *       Compiler:  gcc
+ *       Compiler:  g++
  *
- *         Author:  YOUR NAME (), 
+ *         Author:  qianlv
  *   Organization:  
+ *          Email:  qianlv7 at qq com
  *
  * =====================================================================================
  */
@@ -20,52 +21,131 @@
 #define CONCURRENT_HASHMAP_H
 
 #include <vector>
+#include <exception>
+#include <memory>
+#include <forward_list>
+#include <list>
 
 template <typename KeyType, typename ValueType>
 struct Entry
 {
     Entry(KeyType key, ValueType val)
     {
-        next_ = nullptr;
         key_ = key;
         val_ = val;
     }
-    struct Entry *next_;
     ValueType val_;
     KeyType key_;
 };
 
-template <typename KeyType, typename ValueType, typename Hash = std::hash<std::size_t>, int MAX_ENTRY_NUM = 16>
-struct Segment
+template <typename KeyType, typename ValueType>
+class Segment
 {
-    using entryType= Entry<KeyType, ValueType>;
-    entryType *entrys_[MAX_ENTRY_NUM] = {nullptr};
-    static constexpr int entryCount = MAX_ENTRY_NUM;
-    void insert(KeyType key, ValueType val, std::size_t keyHashVal)
+    using EntryType = Entry<KeyType, ValueType>;
+    using EntryPtrType = std::shared_ptr<EntryType>;
+    using ListEntryType = std::forward_list<EntryPtrType>;
+public:
+    Segment(int cap, float loadFactor)
+        : entrys_(cap), loadFactor_(loadFactor), threshold_(cap * loadFactor), entryCount_(0)
     {
-        int index = Hash(keyHashVal) & (entryCount - 1);
-        entryType *entry = new entryType(key, val);
-        if (entrys_[index] == nullptr) 
-        {
-            entrys_[index] = entry;
+    }
+    ~Segment() {};
+
+    bool insert(KeyType key, ValueType value, std::size_t hashVal)
+    {
+        if (entryCount_ > threshold_)
+            rehash();
+        int index = hashVal & (entrys_.size());
+        ListEntryType listEntry = entrys_[index];
+        for (const auto& iter : listEntry) {
+            if (iter->key_ == key) {
+                return false;
+            }
         }
-        else
-        {
-            entry->next = entrys_[index];
-            entrys_[index] = entry;
+
+        listEntry.push_front(std::make_shared<EntryType>(key, value));
+        ++entryCount_;
+    }
+
+    EntryType get(KeyType key, std::size_t hashVal)
+    {
+        int index = hashVal & (entrys_.size());
+        ListEntryType listEntry = entrys_[index];
+        for (const auto& iter : listEntry) {
+            if (iter->key_ == key) {
+                return *iter;
+            }
         }
     }
+
+    void rehash() {}
+
+private:
+    std::vector<ListEntryType> entrys_;
+    float loadFactor_;
+    int threshold_;
+    int entryCount_;
 };
 
-template <typename KeyType, typename ValueType, typename Hash = std::hash<KeyType>, int MAX_SEGMENTS_NUM = 16>
+template <typename KeyType, typename ValueType, typename Hash = std::hash<KeyType>>
 class ConcurrentHashmap
 {
+    using EntryType = Entry<KeyType, ValueType>;
+    using SegmentType = Segment<KeyType, ValueType>;
 public:
-    ConcurrentHashmap();
-    virtual ~ConcurrentHashmap();
+    ConcurrentHashmap() : 
+        ConcurrentHashmap(DEFAULT_INITIAL_CAPACITY, DEFAULT_CONCURRENCY_LEVEL, DEFAULT_LOAD_FACTOR) {};
+    ConcurrentHashmap(int initCap, int concurrencyLevel, float loadFactor)
+    {
+        if (initCap < 0 or concurrencyLevel < 0 or !(loadFactor > 0))
+            throw std::exception();
+
+        if (concurrencyLevel > MAX_SEGMENTS)
+            concurrencyLevel = MAX_SEGMENTS;
+
+        // 用于hashVal 的高位的值确定位于 segemnts 数组的位置.
+        int sshift = 0;
+        int segementSize = 1;
+        for (; segementSize < concurrencyLevel; ++sshift)
+            segementSize <<= 1;
+        segmentShift_ = sizeof(std::size_t) - sshift; 
+        segmentMask_ = segementSize - 1;
+
+        if (initCap > MAX_CAPACITY)
+            initCap = MAX_CAPACITY;
+        int cap = (initCap + segementSize - 1) & (~(segementSize - 1)); // 除以 segementSize, 向上取整
+
+        int segmentCap = 1;
+        while (segmentCap < cap)
+            segmentCap <<= 1;
+        for (int i = 0; i < segementSize; ++i) {
+            segments_.push_back(SegmentType(segmentCap, loadFactor));
+        }
+    }
+    ~ConcurrentHashmap() {};
+
+    bool insert(KeyType key, ValueType value)
+    {
+        std::size_t hashVal = Hash()(key);
+        return segments_[(hashVal >> segmentShift_) & segmentMask_].insert(key, value, hashVal);
+    }
+
+    EntryType get(KeyType key)
+    {
+        std::size_t hashVal = Hash()(key);
+        return segments_[(hashVal >> segmentShift_) & segmentMask_].get(key, hashVal);
+    }
+
 private:
-    Segment<KeyType, ValueType> segments_[MAX_SEGMENTS_NUM];
-    static constexpr int segmentCount = MAX_SEGMENTS_NUM;
+    static constexpr int    DEFAULT_INITIAL_CAPACITY    = 16;
+    static constexpr int    DEFAULT_CONCURRENCY_LEVEL   = 16;
+    static constexpr float  DEFAULT_LOAD_FACTOR         = 0.75f;
+    static constexpr int    MAX_SEGMENTS                = (1 << 16);
+    static constexpr int    MAX_CAPACITY                = (1 << 16);
+
+    int segmentShift_;
+    int segmentMask_;
+    std::vector<SegmentType> segments_;
 };
 
 #endif /* CONCURRENT_HASHMAP_H */
