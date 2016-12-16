@@ -1,12 +1,15 @@
 ## Protecting a list with a mutex
+
 [STM](https://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E4%BA%8B%E5%8A%A1%E5%86%85%E5%AD%98)
 
 ##  Accidentally passing out a reference to prctected data
+
 __Don’t pass pointers and references to protected data outside the scope of the lock, whether by
 returning them from a function, storing them in externally visible memory, or passing them as
 arguments to user-supplied functions.__
 
 ## Spotting race conditions inherent in interfaces
+
 ```
     stack<int> s;
     if (!s.empty())         // 1
