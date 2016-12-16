@@ -1,13 +1,11 @@
-## 3.1 protecting a list with a mutex
+## Protecting a list with a mutex
     [STM](https://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E4%BA%8B%E5%8A%A1%E5%86%85%E5%AD%98)
-## 3.2 
-    Accidentally passing out a reference to prctected data
+##  Accidentally passing out a reference to prctected data
     __Don’t pass pointers and references to protected data outside the scope of the lock, whether by
     returning them from a function, storing them in externally visible memory, or passing them as
     arguments to user-supplied functions.__
 
-## 3.3
-    Spotting race conditions inherent in interfaces
+## Spotting race conditions inherent in interfaces
     ```
         stack<int> s;
         if (!s.empty())         // 1
@@ -43,14 +41,14 @@
     ```
     2. 保证 copy constructor 和 move constructor 不抛异常.
     3. 返回指针(shared_ptr), 但是相比 no-thread-safe 的原来在栈上分配内存变为在堆上(new).
-## 3.4 deadlock
+## Deadlock
     1. 按顺序加锁 std::lock
     2. [lock hierachies to avoid deadlock](http://www.drdobbs.com/parallel/use-lock-hierarchies-to-avoid-deadlock/204801163), 就是给加等级, 加锁顺序必须又高等级到低等级
 
-## 3.5 锁的粒度
+## 锁的粒度
     1. A lock should be held for only the minimum possible time needed to perform the required operations
 
-## 3.6 Protecting shared data during initialization
+## Protecting shared data during initialization
     1. Double-Checked Locking
     ```
         void undefined_behaviour_with_double_checked_locking()
