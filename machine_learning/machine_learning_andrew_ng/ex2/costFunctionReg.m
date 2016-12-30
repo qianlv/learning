@@ -25,7 +25,7 @@
 function [cost, grad] = costFunctionReg (initial_theta, X, y, lambda)
     m = length(y);
     Z = sigmoid(X * initial_theta);
-    cost = sum((-y)' * log(Z) - (1- y)' * log(1 - Z)) / m + lambda * sum(initial_theta .^ 2) / (2 * m);
+    cost = sum((-y) .* log(Z) - (1- y) .* log(1 - Z)) / m + lambda * sum(initial_theta .^ 2) / (2 * m);
 
     initial_theta(1) = 0;
     grad = (X' * (Z - y) + lambda * initial_theta) / m;

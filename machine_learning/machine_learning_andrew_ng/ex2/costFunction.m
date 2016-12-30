@@ -25,7 +25,7 @@
 function [cost, grad] = costFunction (initial_theta, X, y)
     m = length(y);
     Z = sigmoid(X * initial_theta);
-    cost = sum((-y)' * log(Z) - (1- y)' * log(1 - Z)) / m;
+    cost = sum((-y) .* log(Z) - (1- y) .* log(1 - Z)) / m;
 
     grad = X' * (Z - y) / m;
 endfunction

@@ -30,8 +30,8 @@ function [all_theta] = oneVsAll (X, y, num_labels, lambda)
     for i = 1:num_labels,
         init_theta = zeros(n + 1, 1);
         options = optimset('GradObj', 'on', 'MaxIter', 50);
-        % [theta, cost] = fmincg(@(t)lrCostrFunction(t, X, (y == i), lambda), init_theta, options);
-        [theta, cost] = fminunc(@(t)lrCostrFunction(t, X, (y == i), lambda), init_theta, options);
+        [theta, cost] = fmincg(@(t)lrCostrFunction(t, X, (y == i), lambda), init_theta, options);
+        % [theta, cost] = fminunc(@(t)lrCostrFunction(t, X, (y == i), lambda), init_theta, options);
 
         all_theta(i, :) = theta';
     end

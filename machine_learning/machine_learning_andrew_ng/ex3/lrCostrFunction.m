@@ -26,7 +26,7 @@ function [cost, grad] = lrCostrFunction (theta, X, y, lambda)
     m = length(y);
     T = X*theta;
     H = sigmoid(T); 
-    cost = sum((-y)' * log(H) - (1 - y)' * log(1 - H)) / m + lambda * (sum(theta(2:end) .^ 2) / (2 * m));
+    cost = sum((-y) .* log(H) - (1 - y) .* log(1 - H)) / m + lambda * (sum(theta(2:end) .^ 2) / (2 * m));
 
     ta = [0; theta(2:end)];
     grad = X' * (H - y) / m + lambda / m * ta;
