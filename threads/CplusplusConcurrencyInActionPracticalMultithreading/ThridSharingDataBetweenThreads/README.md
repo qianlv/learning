@@ -1,6 +1,7 @@
-## Protecting a list with a mutex
-
-[STM](https://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E4%BA%8B%E5%8A%A1%E5%86%85%E5%AD%98)
+## Avoiding problematic race conditions
+1. Wrap your data structure with a protection mechanism (Metux).
+2. Lock-free programming.
+3. [STM](https://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E4%BA%8B%E5%8A%A1%E5%86%85%E5%AD%98)
 
 ##  Accidentally passing out a reference to prctected data
 
