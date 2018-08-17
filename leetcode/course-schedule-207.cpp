@@ -25,7 +25,7 @@ using namespace std;
 class Solution
 {
 public:
-    bool canFinish(int numCourses, vector<pair<int, int>>& prereqisites)
+    bool canFinish(int numCourses, vector<pair<int, int> >& prereqisites)
     {
         indegree.resize(numCourses);
         adjacency_list.resize(numCourses);

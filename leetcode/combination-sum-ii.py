@@ -42,6 +42,8 @@ class Solution:
                     curres.pop()
         dfs(0, target)
         return result
+
+
 if __name__ == '__main__':
     sol = Solution()
-    sol.combinationSum2([10, 1, 2, 7, 6, 1, 5], 8)
+    print(sol.combinationSum2([10, 1, 2, 7, 6, 1, 5], 8))
