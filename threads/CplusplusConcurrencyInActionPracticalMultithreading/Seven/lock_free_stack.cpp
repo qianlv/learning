@@ -17,6 +17,8 @@
  */
 #include <atomic>
 #include <memory>
+#include <iostream>
+#include <thread>
 
 template <typename T>
 class lock_free_stack {
@@ -34,6 +36,10 @@ private:
     std::atomic<node*> to_be_deleted;
 
 public:
+    lock_free_stack(): head(nullptr), threads_in_pop(0), to_be_deleted(nullptr) {}
+    lock_free_stack(const lock_free_stack&) = delete;
+    lock_free_stack& operator=(const lock_free_stack&) = delete;
+
     void push(T const& data) {
         node* const new_node = new node(data);
         new_node->next = head.load();
@@ -55,6 +61,7 @@ public:
         return res;
     }
 
+private:
     static void delete_node(node* nodes) {
         while (nodes) {
             node* next = nodes->next;
@@ -96,3 +103,15 @@ public:
         chain_pending_nodes(n, n);
     }
 };
+
+int main(void) {
+    lock_free_stack<int> t;
+    t.push(2);
+    std::thread th1([&]() {t.push(1);});
+    th1.join();
+    auto v = t.pop();
+    std::cout << (*v) << std::endl;
+    v = t.pop();
+    std::cout << (*v) << std::endl;
+    return 0;
+}
